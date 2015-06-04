@@ -1,6 +1,5 @@
 using System;
 using UIKit;
-using System.Drawing;
 using CoreGraphics;
 
 namespace Example_StandardControls.Screens.iPhone.ScrollView
@@ -9,34 +8,31 @@ namespace Example_StandardControls.Screens.iPhone.ScrollView
 	{
 		UIScrollView scrollView;
 		UIImageView imageView;
-		#region -= constructors =-
-		public Controller () : base()
-		{
-		}
-		#endregion
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			
+
 			// set the background color of the view to white
-			this.View.BackgroundColor = UIColor.White;
-			
-			this.Title = "Scroll View";
+			View.BackgroundColor = UIColor.White;
+
+			Title = "Scroll View";
+
+			imageView = new UIImageView (UIImage.FromFile ("Images/halloween.jpg"));
 
 			// create our scroll view
-			scrollView = new UIScrollView (
-				new CGRect (0, 0, this.View.Frame.Width, this.View.Frame.Height - this.NavigationController.NavigationBar.Frame.Height));
-			this.View.AddSubview (scrollView);
-			
-			// create our image view
-			imageView = new UIImageView (UIImage.FromFile ("Images/halloween.jpg"));
-			scrollView.ContentSize = imageView.Image.Size;
-			scrollView.MaximumZoomScale = 3f;
-			scrollView.MinimumZoomScale = .1f;
+			var frame = new CGRect (0, 0, View.Frame.Width, View.Frame.Height - NavigationController.NavigationBar.Frame.Height);
+			scrollView = new UIScrollView (frame) {
+				ContentSize = imageView.Image.Size,
+				MaximumZoomScale = 3f,
+				MinimumZoomScale = .1f
+			};
 			scrollView.AddSubview (imageView);
-			
+			View.AddSubview (scrollView);
+
 			scrollView.ViewForZoomingInScrollView += (UIScrollView sv) => {
-				return imageView; };
+				return imageView;
+			};
 		}
 	}
 }
